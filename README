@@ -1,0 +1,39 @@
+1) Eroare continua
+	-Pentru primele 2 interpolari am considerat ca numarul de noduri de interpolare creste cu ratia 1 avand
+	in vedere ca atat pentru interpolarea Lagrange cat si pentru Newton, exista un numar de noduri de inter-
+	polare de la care in colo eroarea incepe sa creasca foarte rapid.
+	-Pentru polinomul Fourier am considerat ca numarul de noduri este impar
+	-Metodele 3-6 converg indiferent de valoarea lui eps (in aceste cazuri eroarea descreste spre deosebire
+	de primele 2 situatii cand eroarea incepea de la un numar de noduri in colo sa creasca)
+	-Pentru a nu avea o bucla infinita am pus conditia ca algoritmul sa se opreasca in ambele cazuri la un
+	numar de noduri.
+	-Aleg eps=0.001 pentru a studia cat de repede converge eroarea (eroarea converge mai repede daca numarul
+	de noduri dupa care diferenta de eroare devine mai mica ca eps este mai mic)
+	>Lagrange: -se obtine eroarea cea mai mica pentru N=55 (er=0.0010220)
+		   -pentru eps=0.001 se obtine o eroare er=0.0010774 si N=52
+	>Newton: -se obtine eroarea cea mai mica pentru N=56 (er=2.797e-4)
+		 -pentru eps=0.001 se obtine o eroare er=0.0010334 si N=52
+	>Spline Liniare: -se obtine pentru eps=0.001 o eroare er=9.1429e-05 si N=256
+	>SplineCubiceNaturale:-se obtine pentru eps=0.001 o eroare er=2.8067e-6 si N=64
+	>SplineCubiceNaturale: -se obtine pentru eps=0.001 o eroare er=2.8794e-6 si N=64
+	>Fourier: -se obtine pentru eps=0.001 o eroare er=9.6613e-05 si N=17
+	-Cum pentru eps=0.001, Fourier are N cel mai mic rezulta ca polinomul Fourier converge cel mai repede 
+	si este cel mai exact (la acelasi numar de noduri de interpolare acesta va da o eroare mai mica)
+	-Cele mai exacte metode sunt interpolarea SplineNatural, SplineTensionat si Fourier pentru care la un
+	numar de noduri dat se obtin cele mai mici valori ale erorii
+	-Interpolarile Lagrange si Newton nu aproximeaza foarte bine si de la un numar de noduri in colo (si 
+	deci de la un eps mai mic ca un prag) eroarea va creste in loc sa scada iar functia eval_interpolare_c
+	va intoarce N=inf
+2) Eroare discreta
+	-Cum in acest caz se lucreaza cu un numar finit de puncte (300) si nu cu o functie definita pe un inter-
+	val din care se poate alege o infinitate de puncte, pentru evaluarea erorii se va alege un numar de 
+	puncte crescator de forma N=2^k cu k incepand de la 2, repartizate cat de cat uniform in intervalul
+	[1701 2000] (n=round(linspace(1,300,N))).Se observa ca functia obtinuta prin punctele din sunspot se
+	poate aproxima cu functia g=@(x0)190.2/0.655*f(x0*2*pi/11)+11-1.3277, dupa care se procedeaza analog 
+	ca in prima parte luandu-se 1001 puncte in intervalul [1701 2000] si calculandu-se eroarea.
+	-Cum de data aceasta punctele nu sunt considerate uniform pe segmentul [1701 2000] ci pot fi la distante
+	diferite una de alta iar functia g considerata nu se suprapune perfect peste punctele (xi,fi) din 
+	sunspot , eroarea nu va mai fi descrescatoare si ma va mai interesa doar ca diferenta dintre eroarea
+	la pasul k si cea la k-1 sa fie mai mica decat eps
+	-N intors va fi,deci, nr de noduri pentru care diferenta erorii e cea mai mica si mai mica dacat un
+	eps dat (in cazul meu eps l am luat 5)
